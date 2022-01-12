@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, NavLink } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route } from 'react-router-dom';
 
 import CharacterList from './components/Characters/CharacterList';
 import FilmList from './components/Films/FilmList';
@@ -8,11 +8,6 @@ import FilmList from './components/Films/FilmList';
 function App() {
   const [films, setFilms] = useState([]);
   const [characters, setCharacters] = useState([]);
-
-  useEffect(() => {
-    getFilms();
-    getCharacters();
-  }, []);
 
   const getFilms = async () => {
     // Add your code here!
@@ -27,8 +22,22 @@ function App() {
 
     // 3. Set the resulting transformation as state using setFilms
     // 4. You'll know it works if the films show up on the page
-    return [];
+
+    const resp = await fetch(`${process.env.REACT_APP_SUPABASE_URL}/rest/v1/films`, {
+      headers: {
+        apikey: process.env.REACT_APP_SUPABASE_KEY,
+        Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_KEY}`,
+      },
+    });
+    const data = await resp.json();
+
+    setFilms(data);
+    return data;
   };
+
+  useEffect(() => {
+    getFilms();
+  }, []);
 
   const getCharacters = async () => {
     // Add your code here!
@@ -58,7 +67,10 @@ function App() {
           </NavLink>
         </header>
         {/* ADD YOUR ROUTES HERE */}
+        <Route exact path="/characters" component={CharacterList} />
+        <Route exact path="/films" component={FilmList} />
       </BrowserRouter>
+      <FilmList films={films} />
     </div>
   );
 }
