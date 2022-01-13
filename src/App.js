@@ -32,7 +32,7 @@ function App() {
     const data = await resp.json();
 
     setFilms(data);
-    return data;
+    return resp;
   };
 
   useEffect(() => {
