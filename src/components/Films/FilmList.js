@@ -1,29 +1,22 @@
 import React from 'react';
 
 export default function FilmList({ films }) {
-  console.log(films);
   return (
-    <>
-      <section className="films">
-        {films.map((film) => (
-          <div
-            className="film"
-            key={film.id}
-            style={{
-              backgroundImage: `url(${
-                process.env.PUBLIC_URL
-              }/films/${film.title.toLowerCase()}.jpeg`,
-            }}
-          >
-            <div className="content">
-              <h1>{film.title}</h1>
-              <p>
-                {`${film.title} totaled $${film.box_office_total}M at the box office and had ${film.academy_award_nominations} Academy Award nominations`}
-              </p>
-            </div>
+    <section className="films">
+      {films.map((film) => (
+        <div
+          className="film"
+          key={film[1]}
+          style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/films/${film[1]}.jpeg` }}
+        >
+          <div className="content">
+            <h1>{film[0]}</h1>
+            <p>
+              {`${film[0]} totaled $${film[2]} at the box office and had ${film[3]} Academy Award nominations`}
+            </p>
           </div>
-        ))}
-      </section>
-    </>
+        </div>
+      ))}
+    </section>
   );
 }
